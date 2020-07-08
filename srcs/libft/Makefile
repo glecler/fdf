@@ -65,7 +65,15 @@ SOURCE = ./ft_memset.c \
 		./ft_strmapi.c \
 		./ft_strsub.c \
 		./ft_strjoin.c \
-		./ft_strtrim.c
+		./ft_strtrim.c \
+		./get_next_line.c 
+
+CC 	= gcc
+	CL=\x1b[35m
+	GREEN=\033[1;32m
+	RED=\033[1;31m
+	CL2=\x1b[36m
+	NC=\033[0m
 
 SRCS = $(SOURCE:.c=.o)
 
@@ -76,12 +84,15 @@ AR = ar rc $(NAME) $(SRCS)
 all : $(NAME)
 
 $(NAME) : 
-	$(GCC); $(AR); ranlib $(NAME)
+	@$(GCC); $(AR); ranlib $(NAME)
+	@@echo "$(GREEN)[✓]$(NC)$(CL) $(NAME) built$(NC)"
 
 clean :
-	rm -rf $(SRCS)
+	@rm -rf $(SRCS)
+	@@echo "$(RED)[-]$(NC)$(CL2) Objects of $(NAME) cleaned$(NC)"
 
 fclean : clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@echo "$(RED)[-]$(NC)$(CL2) libft.a cleaned$(NC)"
 
-re : fclean all
+re : fclean, all, clean, $(NAME)

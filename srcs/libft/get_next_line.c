@@ -6,13 +6,11 @@
 /*   By: glecler <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 14:34:16 by glecler           #+#    #+#             */
-/*   Updated: 2019/02/18 18:22:21 by glecler          ###   ########.fr       */
+/*   Updated: 2019/10/28 15:12:10 by glecler          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "libft/libft.h"
-#include <stdlib.h>
+#include "libft.h"
 
 static int	find(char *str)
 {
@@ -34,9 +32,9 @@ static char	*lecture(char *str, const int fd, int *z, int x)
 	char	*temp;
 
 	x = 0;
-	if (!(buff = malloc(BUFF_SIZE + 1)))
+	if (!(buff = malloc(GNL_SIZE + 1)))
 		return (NULL);
-	while ((x = read(fd, buff, BUFF_SIZE)) > 0)
+	while ((x = read(fd, buff, GNL_SIZE)) > 0)
 	{
 		buff[x] = '\0';
 		if (!(temp = ((!(str)) ? ft_strdup(buff) : ft_strjoin(str, buff))))
@@ -82,7 +80,7 @@ static char	*save_line(char *str, char **line, int *y)
 		}
 	}
 	*y = 1;
-	return (NULL);
+	return (0);
 }
 
 int			get_next_line(const int fd, char **line)
@@ -93,7 +91,7 @@ int			get_next_line(const int fd, char **line)
 
 	y = 0;
 	z = 0;
-	if (BUFF_SIZE < 1 || fd < 0 || !line || !(str = lecture(str, fd, &z, y)))
+	if (GNL_SIZE < 1 || fd < 0 || !line || !(str = lecture(str, fd, &z, y)))
 		return (z == 1 ? 0 : -1);
 	if (!(str = save_line(str, line, &y)))
 	{

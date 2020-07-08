@@ -1,8 +1,8 @@
 NAME 	= fdf
-SRC 	= sstr_link.m img_put.m parsing.m fdf.m get_next_line.m
-FLAGS 	= -Wall -Wextra
-DEBUG   = -fsanitize=address
-CC 	= gcc
+SRC 	= ./srcs/sstr_link.c ./srcs/img_put.c ./srcs/parsing.c \
+			./srcs/fdf.c ./srcs/utilitaries.c ./srcs/main.c
+FLAGS 	= -Wall -Wextra -Werror 
+CC		= gcc
 	CL=\x1b[35m
 	GREEN=\033[1;32m
 	RED=\033[1;31m
@@ -12,14 +12,17 @@ CC 	= gcc
 all: $(NAME)
 
 $(NAME): $(SRC)
-	@$(CC) $(DEBUG) $(FLAGS) -I minilibx_macos $(SRC) ./libft/libft.a -L minilibx_macos -lmlx -framework OpenGL -framework Appkit -o fdf
+	@$(MAKE) -C srcs/libft
+	@$(CC) $(FLAGS) -I minilibx_macos $(SRC) ./srcs/libft/libft.a -L ./includes/minilibx_macos -lmlx -framework OpenGL -framework Appkit -o fdf
 	@echo "$(GREEN)[✓]$(NC)$(CL) $(NAME) built$(NC)"
 
 clean:
 	@rm -rf $(OBJ)
+	@cd srcs/libft && $(MAKE) clean
 	@echo "$(RED)[-]$(NC)$(CL2) Objects of $(NAME) cleaned$(NC)"
 
 fclean: clean
+	@cd srcs/libft && $(MAKE) fclean
 	@rm -rf fdf
 	@echo "$(RED)[-]$(NC)$(CL2) fdf cleaned$(NC)"
 
